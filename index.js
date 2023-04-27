@@ -2,6 +2,12 @@ require("dotenv").config();
 const { WakaTimeClient, RANGE } = require("wakatime-client");
 const { Octokit } = require("@octokit/rest");
 
+WakaTimeClient.prototype.getStatusBar = function() {
+  return this.axiosConfiguration
+    .get(`users/current/status_bar/today`)
+    .then(response => response.data);
+};
+
 const {
   GIST_ID: gistId,
   GH_TOKEN: githubToken,
@@ -13,8 +19,8 @@ const wakatime = new WakaTimeClient(wakatimeApiKey);
 const octokit = new Octokit({ auth: `token ${githubToken}` });
 
 async function main() {
-  const stats = await wakatime.getMyStats({ range: RANGE.LAST_7_DAYS });
-  await updateGist(stats);
+  const statusBar = await wakatime.getStatusBar();
+  await updateGist(statusBar);
 }
 
 function trimRightStr(str, len) {
