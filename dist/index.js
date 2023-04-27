@@ -298,7 +298,7 @@ module.exports = (function(e, a) {
             gist_id: t,
             files: {
               [e]: {
-                filename: `📊 Weekly development breakdown`,
+                filename: `📊 Development breakdown of last day`,
                 content: p.join("\n")
               }
             }
@@ -9807,7 +9807,7 @@ module.exports = (function(e, a) {
         };
         return p(e, 0);
       };
-      var W = {
+      var $ = {
         isArray: r,
         isArrayBuffer: l,
         isBuffer: isBuffer,
@@ -9869,7 +9869,7 @@ module.exports = (function(e, a) {
         i && (this.request = i);
         s && (this.response = s);
       }
-      W.inherits(AxiosError, Error, {
+      $.inherits(AxiosError, Error, {
         toJSON: function toJSON() {
           return {
             message: this.message,
@@ -9880,7 +9880,7 @@ module.exports = (function(e, a) {
             lineNumber: this.lineNumber,
             columnNumber: this.columnNumber,
             stack: this.stack,
-            config: W.toJSONObject(this.config),
+            config: $.toJSONObject(this.config),
             code: this.code,
             status:
               this.response && this.response.status
@@ -9889,7 +9889,7 @@ module.exports = (function(e, a) {
           };
         }
       });
-      const $ = AxiosError.prototype;
+      const W = AxiosError.prototype;
       const K = {};
       [
         "ERR_BAD_OPTION_VALUE",
@@ -9908,10 +9908,10 @@ module.exports = (function(e, a) {
         K[e] = { value: e };
       });
       Object.defineProperties(AxiosError, K);
-      Object.defineProperty($, "isAxiosError", { value: true });
+      Object.defineProperty(W, "isAxiosError", { value: true });
       AxiosError.from = (e, a, p, i, s, o) => {
-        const t = Object.create($);
-        W.toFlatObject(
+        const t = Object.create(W);
+        $.toFlatObject(
           e,
           t,
           function filter(e) {
@@ -9932,10 +9932,10 @@ module.exports = (function(e, a) {
       var Z = p.n(Y);
       var Q = Z.a;
       function isVisitable(e) {
-        return W.isPlainObject(e) || W.isArray(e);
+        return $.isPlainObject(e) || $.isArray(e);
       }
       function removeBrackets(e) {
-        return W.endsWith(e, "[]") ? e.slice(0, -2) : e;
+        return $.endsWith(e, "[]") ? e.slice(0, -2) : e;
       }
       function renderKey(e, a, p) {
         if (!e) return a;
@@ -9948,30 +9948,30 @@ module.exports = (function(e, a) {
           .join(p ? "." : "");
       }
       function isFlatArray(e) {
-        return W.isArray(e) && !e.some(isVisitable);
+        return $.isArray(e) && !e.some(isVisitable);
       }
-      const X = W.toFlatObject(W, {}, null, function filter(e) {
+      const X = $.toFlatObject($, {}, null, function filter(e) {
         return /^is[A-Z]/.test(e);
       });
       function isSpecCompliant(e) {
         return (
           e &&
-          W.isFunction(e.append) &&
+          $.isFunction(e.append) &&
           e[Symbol.toStringTag] === "FormData" &&
           e[Symbol.iterator]
         );
       }
       function toFormData(e, a, p) {
-        if (!W.isObject(e)) {
+        if (!$.isObject(e)) {
           throw new TypeError("target must be an object");
         }
         a = a || new (Q || FormData)();
-        p = W.toFlatObject(
+        p = $.toFlatObject(
           p,
           { metaTokens: true, dots: false, indexes: false },
           false,
           function defined(e, a) {
-            return !W.isUndefined(a[e]);
+            return !$.isUndefined(a[e]);
           }
         );
         const i = p.metaTokens;
@@ -9980,18 +9980,18 @@ module.exports = (function(e, a) {
         const t = p.indexes;
         const n = p.Blob || (typeof Blob !== "undefined" && Blob);
         const r = n && isSpecCompliant(a);
-        if (!W.isFunction(s)) {
+        if (!$.isFunction(s)) {
           throw new TypeError("visitor must be a function");
         }
         function convertValue(e) {
           if (e === null) return "";
-          if (W.isDate(e)) {
+          if ($.isDate(e)) {
             return e.toISOString();
           }
-          if (!r && W.isBlob(e)) {
+          if (!r && $.isBlob(e)) {
             throw new J("Blob is not supported. Use a Buffer instead.");
           }
-          if (W.isArrayBuffer(e) || W.isTypedArray(e)) {
+          if ($.isArrayBuffer(e) || $.isTypedArray(e)) {
             return r && typeof Blob === "function"
               ? new Blob([e])
               : Buffer.from(e);
@@ -10001,16 +10001,16 @@ module.exports = (function(e, a) {
         function defaultVisitor(e, p, s) {
           let n = e;
           if (e && !s && typeof e === "object") {
-            if (W.endsWith(p, "{}")) {
+            if ($.endsWith(p, "{}")) {
               p = i ? p : p.slice(0, -2);
               e = JSON.stringify(e);
             } else if (
-              (W.isArray(e) && isFlatArray(e)) ||
-              W.isFileList(e) || (W.endsWith(p, "[]") && (n = W.toArray(e)))
+              ($.isArray(e) && isFlatArray(e)) ||
+              $.isFileList(e) || ($.endsWith(p, "[]") && (n = $.toArray(e)))
             ) {
               p = removeBrackets(p);
               n.forEach(function each(e, i) {
-                !(W.isUndefined(e) || e === null) &&
+                !($.isUndefined(e) || e === null) &&
                   a.append(
                     t === true
                       ? renderKey([p], i, o)
@@ -10036,22 +10036,22 @@ module.exports = (function(e, a) {
           isVisitable: isVisitable
         });
         function build(e, p) {
-          if (W.isUndefined(e)) return;
+          if ($.isUndefined(e)) return;
           if (d.indexOf(e) !== -1) {
             throw Error("Circular reference detected in " + p.join("."));
           }
           d.push(e);
-          W.forEach(e, function each(e, i) {
+          $.forEach(e, function each(e, i) {
             const o =
-              !(W.isUndefined(e) || e === null) &&
-              s.call(a, e, W.isString(i) ? i.trim() : i, p, l);
+              !($.isUndefined(e) || e === null) &&
+              s.call(a, e, $.isString(i) ? i.trim() : i, p, l);
             if (o === true) {
               build(e, p ? p.concat(i) : [i]);
             }
           });
           d.pop();
         }
-        if (!W.isObject(e)) {
+        if (!$.isObject(e)) {
           throw new TypeError("data must be an object");
         }
         build(e);
@@ -10115,7 +10115,7 @@ module.exports = (function(e, a) {
         if (s) {
           o = s(a, p);
         } else {
-          o = W.isURLSearchParams(a) ? a.toString() : new pe(a, p).toString(i);
+          o = $.isURLSearchParams(a) ? a.toString() : new pe(a, p).toString(i);
         }
         if (o) {
           const a = e.indexOf("#");
@@ -10150,7 +10150,7 @@ module.exports = (function(e, a) {
           }
         }
         forEach(e) {
-          W.forEach(this.handlers, function forEachHandler(a) {
+          $.forEach(this.handlers, function forEachHandler(a) {
             if (a !== null) {
               e(a);
             }
@@ -10183,7 +10183,7 @@ module.exports = (function(e, a) {
           Object.assign(
             {
               visitor: function(e, a, p, i) {
-                if (de.isNode && W.isBuffer(e)) {
+                if (de.isNode && $.isBuffer(e)) {
                   this.append(a, e.toString("base64"));
                   return false;
                 }
@@ -10195,7 +10195,7 @@ module.exports = (function(e, a) {
         );
       }
       function parsePropPath(e) {
-        return W.matchAll(/\w+|\[(\w*)]/g, e).map(e => {
+        return $.matchAll(/\w+|\[(\w*)]/g, e).map(e => {
           return e[0] === "[]" ? "" : e[1] || e[0];
         });
       }
@@ -10216,27 +10216,27 @@ module.exports = (function(e, a) {
           let s = e[i++];
           const o = Number.isFinite(+s);
           const t = i >= e.length;
-          s = !s && W.isArray(p) ? p.length : s;
+          s = !s && $.isArray(p) ? p.length : s;
           if (t) {
-            if (W.hasOwnProp(p, s)) {
+            if ($.hasOwnProp(p, s)) {
               p[s] = [p[s], a];
             } else {
               p[s] = a;
             }
             return !o;
           }
-          if (!p[s] || !W.isObject(p[s])) {
+          if (!p[s] || !$.isObject(p[s])) {
             p[s] = [];
           }
           const n = buildPath(e, a, p[s], i);
-          if (n && W.isArray(p[s])) {
+          if (n && $.isArray(p[s])) {
             p[s] = arrayToObject(p[s]);
           }
           return !o;
         }
-        if (W.isFormData(e) && W.isFunction(e.entries)) {
+        if ($.isFormData(e) && $.isFunction(e.entries)) {
           const a = {};
-          W.forEachEntry(e, (e, p) => {
+          $.forEachEntry(e, (e, p) => {
             buildPath(parsePropPath(e), p, a, 0);
           });
           return a;
@@ -10246,10 +10246,10 @@ module.exports = (function(e, a) {
       var le = formDataToJSON;
       const ce = { "Content-Type": undefined };
       function stringifySafely(e, a, p) {
-        if (W.isString(e)) {
+        if ($.isString(e)) {
           try {
             (a || JSON.parse)(e);
-            return W.trim(e);
+            return $.trim(e);
           } catch (e) {
             if (e.name !== "SyntaxError") {
               throw e;
@@ -10265,11 +10265,11 @@ module.exports = (function(e, a) {
           function transformRequest(e, a) {
             const p = a.getContentType() || "";
             const i = p.indexOf("application/json") > -1;
-            const s = W.isObject(e);
-            if (s && W.isHTMLForm(e)) {
+            const s = $.isObject(e);
+            if (s && $.isHTMLForm(e)) {
               e = new FormData(e);
             }
-            const o = W.isFormData(e);
+            const o = $.isFormData(e);
             if (o) {
               if (!i) {
                 return e;
@@ -10277,18 +10277,18 @@ module.exports = (function(e, a) {
               return i ? JSON.stringify(le(e)) : e;
             }
             if (
-              W.isArrayBuffer(e) ||
-              W.isBuffer(e) ||
-              W.isStream(e) ||
-              W.isFile(e) ||
-              W.isBlob(e)
+              $.isArrayBuffer(e) ||
+              $.isBuffer(e) ||
+              $.isStream(e) ||
+              $.isFile(e) ||
+              $.isBlob(e)
             ) {
               return e;
             }
-            if (W.isArrayBufferView(e)) {
+            if ($.isArrayBufferView(e)) {
               return e.buffer;
             }
-            if (W.isURLSearchParams(e)) {
+            if ($.isURLSearchParams(e)) {
               a.setContentType(
                 "application/x-www-form-urlencoded;charset=utf-8",
                 false
@@ -10301,7 +10301,7 @@ module.exports = (function(e, a) {
                 return toURLEncodedForm(e, this.formSerializer).toString();
               }
               if (
-                (t = W.isFileList(e)) ||
+                (t = $.isFileList(e)) ||
                 p.indexOf("multipart/form-data") > -1
               ) {
                 const a = this.env && this.env.FormData;
@@ -10324,7 +10324,7 @@ module.exports = (function(e, a) {
             const a = this.transitional || me.transitional;
             const p = a && a.forcedJSONParsing;
             const i = this.responseType === "json";
-            if (e && W.isString(e) && ((p && !this.responseType) || i)) {
+            if (e && $.isString(e) && ((p && !this.responseType) || i)) {
               const p = a && a.silentJSONParsing;
               const s = !p && i;
               try {
@@ -10358,14 +10358,14 @@ module.exports = (function(e, a) {
         },
         headers: { common: { Accept: "application/json, text/plain, */*" } }
       };
-      W.forEach(["delete", "get", "head"], function forEachMethodNoData(e) {
+      $.forEach(["delete", "get", "head"], function forEachMethodNoData(e) {
         me.headers[e] = {};
       });
-      W.forEach(["post", "put", "patch"], function forEachMethodWithData(e) {
-        me.headers[e] = W.merge(ce);
+      $.forEach(["post", "put", "patch"], function forEachMethodWithData(e) {
+        me.headers[e] = $.merge(ce);
       });
       var ue = me;
-      const fe = W.toObjectSet([
+      const fe = $.toObjectSet([
         "age",
         "authorization",
         "content-length",
@@ -10425,7 +10425,7 @@ module.exports = (function(e, a) {
         if (e === false || e == null) {
           return e;
         }
-        return W.isArray(e) ? e.map(normalizeValue) : String(e);
+        return $.isArray(e) ? e.map(normalizeValue) : String(e);
       }
       function parseTokens(e) {
         const a = Object.create(null);
@@ -10440,14 +10440,14 @@ module.exports = (function(e, a) {
         return /^[-_a-zA-Z]+$/.test(e.trim());
       }
       function matchHeaderValue(e, a, p, i) {
-        if (W.isFunction(i)) {
+        if ($.isFunction(i)) {
           return i.call(this, a, p);
         }
-        if (!W.isString(a)) return;
-        if (W.isString(i)) {
+        if (!$.isString(a)) return;
+        if ($.isString(i)) {
           return a.indexOf(i) !== -1;
         }
-        if (W.isRegExp(i)) {
+        if ($.isRegExp(i)) {
           return i.test(a);
         }
       }
@@ -10460,7 +10460,7 @@ module.exports = (function(e, a) {
           });
       }
       function buildAccessors(e, a) {
-        const p = W.toCamelCase(" " + a);
+        const p = $.toCamelCase(" " + a);
         ["get", "set", "has"].forEach(i => {
           Object.defineProperty(e, i + p, {
             value: function(e, p, s) {
@@ -10481,7 +10481,7 @@ module.exports = (function(e, a) {
             if (!s) {
               throw new Error("header name must be a non-empty string");
             }
-            const o = W.findKey(i, s);
+            const o = $.findKey(i, s);
             if (
               !o ||
               i[o] === undefined ||
@@ -10491,10 +10491,10 @@ module.exports = (function(e, a) {
               i[o || a] = normalizeValue(e);
             }
           }
-          const s = (e, a) => W.forEach(e, (e, p) => setHeader(e, p, a));
-          if (W.isPlainObject(e) || e instanceof this.constructor) {
+          const s = (e, a) => $.forEach(e, (e, p) => setHeader(e, p, a));
+          if ($.isPlainObject(e) || e instanceof this.constructor) {
             s(e, a);
-          } else if (W.isString(e) && (e = e.trim()) && !isValidHeaderName(e)) {
+          } else if ($.isString(e) && (e = e.trim()) && !isValidHeaderName(e)) {
             s(ve(e), a);
           } else {
             e != null && setHeader(a, e, p);
@@ -10504,7 +10504,7 @@ module.exports = (function(e, a) {
         get(e, a) {
           e = normalizeHeader(e);
           if (e) {
-            const p = W.findKey(this, e);
+            const p = $.findKey(this, e);
             if (p) {
               const e = this[p];
               if (!a) {
@@ -10513,10 +10513,10 @@ module.exports = (function(e, a) {
               if (a === true) {
                 return parseTokens(e);
               }
-              if (W.isFunction(a)) {
+              if ($.isFunction(a)) {
                 return a.call(this, e, p);
               }
-              if (W.isRegExp(a)) {
+              if ($.isRegExp(a)) {
                 return a.exec(e);
               }
               throw new TypeError("parser must be boolean|regexp|function");
@@ -10526,7 +10526,7 @@ module.exports = (function(e, a) {
         has(e, a) {
           e = normalizeHeader(e);
           if (e) {
-            const p = W.findKey(this, e);
+            const p = $.findKey(this, e);
             return !!(p && (!a || matchHeaderValue(this, this[p], p, a)));
           }
           return false;
@@ -10537,14 +10537,14 @@ module.exports = (function(e, a) {
           function deleteHeader(e) {
             e = normalizeHeader(e);
             if (e) {
-              const s = W.findKey(p, e);
+              const s = $.findKey(p, e);
               if (s && (!a || matchHeaderValue(p, p[s], s, a))) {
                 delete p[s];
                 i = true;
               }
             }
           }
-          if (W.isArray(e)) {
+          if ($.isArray(e)) {
             e.forEach(deleteHeader);
           } else {
             deleteHeader(e);
@@ -10557,8 +10557,8 @@ module.exports = (function(e, a) {
         normalize(e) {
           const a = this;
           const p = {};
-          W.forEach(this, (i, s) => {
-            const o = W.findKey(p, s);
+          $.forEach(this, (i, s) => {
+            const o = $.findKey(p, s);
             if (o) {
               a[o] = normalizeValue(i);
               delete a[s];
@@ -10578,10 +10578,10 @@ module.exports = (function(e, a) {
         }
         toJSON(e) {
           const a = Object.create(null);
-          W.forEach(this, (p, i) => {
+          $.forEach(this, (p, i) => {
             p != null &&
               p !== false &&
-              (a[i] = e && W.isArray(p) ? p.join(", ") : p);
+              (a[i] = e && $.isArray(p) ? p.join(", ") : p);
           });
           return a;
         }
@@ -10615,7 +10615,7 @@ module.exports = (function(e, a) {
               p[a] = true;
             }
           }
-          W.isArray(e) ? e.forEach(defineAccessor) : defineAccessor(e);
+          $.isArray(e) ? e.forEach(defineAccessor) : defineAccessor(e);
           return this;
         }
       }
@@ -10626,15 +10626,15 @@ module.exports = (function(e, a) {
         "Accept-Encoding",
         "User-Agent"
       ]);
-      W.freezeMethods(AxiosHeaders_AxiosHeaders.prototype);
-      W.freezeMethods(AxiosHeaders_AxiosHeaders);
+      $.freezeMethods(AxiosHeaders_AxiosHeaders.prototype);
+      $.freezeMethods(AxiosHeaders_AxiosHeaders);
       var ge = AxiosHeaders_AxiosHeaders;
       function transformData(e, a) {
         const p = this || ue;
         const i = a || p;
         const s = ge.from(i.headers);
         let o = i.data;
-        W.forEach(e, function transform(e) {
+        $.forEach(e, function transform(e) {
           o = e.call(p, o, s.normalize(), a ? a.status : undefined);
         });
         s.normalize();
@@ -10647,7 +10647,7 @@ module.exports = (function(e, a) {
         J.call(this, e == null ? "canceled" : e, J.ERR_CANCELED, a, p);
         this.name = "CanceledError";
       }
-      W.inherits(CanceledError, J, { __CANCEL__: true });
+      $.inherits(CanceledError, J, { __CANCEL__: true });
       var be = CanceledError;
       function settle(e, a, p) {
         const i = p.config.validateStatus;
@@ -10783,7 +10783,7 @@ module.exports = (function(e, a) {
       const Ce = Symbol("internals");
       class AxiosTransformStream_AxiosTransformStream extends Oe.a.Transform {
         constructor(e) {
-          e = W.toFlatObject(
+          e = $.toFlatObject(
             e,
             {
               maxRate: 0,
@@ -10795,7 +10795,7 @@ module.exports = (function(e, a) {
             },
             null,
             (e, a) => {
-              return !W.isUndefined(a[e]);
+              return !$.isUndefined(a[e]);
             }
           );
           super({ readableHighWaterMark: e.chunkSize });
@@ -10942,7 +10942,7 @@ module.exports = (function(e, a) {
         flush: ke.a.constants.Z_SYNC_FLUSH,
         finishFlush: ke.a.constants.Z_SYNC_FLUSH
       };
-      const Le = W.isFunction(ke.a.createBrotliDecompress);
+      const Le = $.isFunction(ke.a.createBrotliDecompress);
       const { http: Be, https: qe } = Se.a;
       const ze = /https:?/;
       const Ie = de.protocols.map(e => {
@@ -10992,7 +10992,7 @@ module.exports = (function(e, a) {
         };
       }
       const He =
-        typeof process !== "undefined" && W.kindOf(process) === "process";
+        typeof process !== "undefined" && $.kindOf(process) === "process";
       var Me =
         He &&
         function httpAdapter(e) {
@@ -11067,7 +11067,7 @@ module.exports = (function(e, a) {
               if (s === "text") {
                 a = a.toString(o);
                 if (!o || o === "utf8") {
-                  i = W.stripBOM(a);
+                  i = $.stripBOM(a);
                 }
               } else if (s === "stream") {
                 a = Oe().Readable.from(a);
@@ -11092,13 +11092,13 @@ module.exports = (function(e, a) {
             const w = e.maxRate;
             let _ = undefined;
             let T = undefined;
-            if (W.isFormData(i) && W.isFunction(i.getHeaders)) {
+            if ($.isFormData(i) && $.isFunction(i.getHeaders)) {
               g.set(i.getHeaders());
-            } else if (i && !W.isStream(i)) {
+            } else if (i && !$.isStream(i)) {
               if (Buffer.isBuffer(i)) {
-              } else if (W.isArrayBuffer(i)) {
+              } else if ($.isArrayBuffer(i)) {
                 i = Buffer.from(new Uint8Array(i));
-              } else if (W.isString(i)) {
+              } else if ($.isString(i)) {
                 i = Buffer.from(i, "utf-8");
               } else {
                 return u(
@@ -11120,20 +11120,20 @@ module.exports = (function(e, a) {
                 );
               }
             }
-            const E = W.toFiniteNumber(g.getContentLength());
-            if (W.isArray(w)) {
+            const E = $.toFiniteNumber(g.getContentLength());
+            if ($.isArray(w)) {
               _ = w[0];
               T = w[1];
             } else {
               _ = T = w;
             }
             if (i && (x || _)) {
-              if (!W.isStream(i)) {
+              if (!$.isStream(i)) {
                 i = Oe().Readable.from(i, { objectMode: false });
               }
               i = Oe().pipeline(
-                [i, new Ge({ length: E, maxRate: W.toFiniteNumber(_) })],
-                W.noop
+                [i, new Ge({ length: E, maxRate: $.toFiniteNumber(_) })],
+                $.noop
               );
               x &&
                 i.on("progress", e => {
@@ -11222,8 +11222,8 @@ module.exports = (function(e, a) {
               const i = +a.headers["content-length"];
               if (b) {
                 const e = new Ge({
-                  length: W.toFiniteNumber(i),
-                  maxRate: W.toFiniteNumber(T)
+                  length: $.toFiniteNumber(i),
+                  maxRate: $.toFiniteNumber(T)
                 });
                 b &&
                   e.on("progress", e => {
@@ -11251,7 +11251,7 @@ module.exports = (function(e, a) {
                     }
                 }
               }
-              n = p.length > 1 ? Oe().pipeline(p, W.noop) : p[0];
+              n = p.length > 1 ? Oe().pipeline(p, $.noop) : p[0];
               const f = Oe().finished(n, () => {
                 f();
                 onFinished();
@@ -11312,7 +11312,7 @@ module.exports = (function(e, a) {
                     if (s !== "arraybuffer") {
                       p = p.toString(o);
                       if (!o || o === "utf8") {
-                        p = W.stripBOM(p);
+                        p = $.stripBOM(p);
                       }
                     }
                     v.data = p;
@@ -11372,7 +11372,7 @@ module.exports = (function(e, a) {
                 abort();
               });
             }
-            if (W.isStream(i)) {
+            if ($.isStream(i)) {
               let a = false;
               let p = false;
               i.on("end", () => {
@@ -11393,20 +11393,20 @@ module.exports = (function(e, a) {
             }
           });
         };
-      const We = setProxy;
-      var $e = de.isStandardBrowserEnv
+      const $e = setProxy;
+      var We = de.isStandardBrowserEnv
         ? (function standardBrowserEnv() {
             return {
               write: function write(e, a, p, i, s, o) {
                 const t = [];
                 t.push(e + "=" + encodeURIComponent(a));
-                if (W.isNumber(p)) {
+                if ($.isNumber(p)) {
                   t.push("expires=" + new Date(p).toGMTString());
                 }
-                if (W.isString(i)) {
+                if ($.isString(i)) {
                   t.push("path=" + i);
                 }
-                if (W.isString(s)) {
+                if ($.isString(s)) {
                   t.push("domain=" + s);
                 }
                 if (o === true) {
@@ -11460,7 +11460,7 @@ module.exports = (function(e, a) {
             }
             p = resolveURL(window.location.href);
             return function isURLSameOrigin(e) {
-              const a = W.isString(e) ? resolveURL(e) : e;
+              const a = $.isString(e) ? resolveURL(e) : e;
               return a.protocol === p.protocol && a.host === p.host;
             };
           })()
@@ -11510,7 +11510,7 @@ module.exports = (function(e, a) {
               }
             }
             if (
-              W.isFormData(i) &&
+              $.isFormData(i) &&
               (de.isStandardBrowserEnv || de.isStandardBrowserWebWorkerEnv)
             ) {
               s.setContentType(false);
@@ -11611,18 +11611,18 @@ module.exports = (function(e, a) {
               const a =
                 (e.withCredentials || Ke(r)) &&
                 e.xsrfCookieName &&
-                $e.read(e.xsrfCookieName);
+                We.read(e.xsrfCookieName);
               if (a) {
                 s.set(e.xsrfHeaderName, a);
               }
             }
             i === undefined && s.setContentType(null);
             if ("setRequestHeader" in n) {
-              W.forEach(s.toJSON(), function setRequestHeader(e, a) {
+              $.forEach(s.toJSON(), function setRequestHeader(e, a) {
                 n.setRequestHeader(a, e);
               });
             }
-            if (!W.isUndefined(e.withCredentials)) {
+            if (!$.isUndefined(e.withCredentials)) {
               n.withCredentials = !!e.withCredentials;
             }
             if (o && o !== "json") {
@@ -11663,7 +11663,7 @@ module.exports = (function(e, a) {
           });
         };
       const Ze = { http: Me, xhr: Ye };
-      W.forEach(Ze, (e, a) => {
+      $.forEach(Ze, (e, a) => {
         if (e) {
           try {
             Object.defineProperty(e, "name", { value: a });
@@ -11673,13 +11673,13 @@ module.exports = (function(e, a) {
       });
       var Qe = {
         getAdapter: e => {
-          e = W.isArray(e) ? e : [e];
+          e = $.isArray(e) ? e : [e];
           const { length: a } = e;
           let p;
           let i;
           for (let s = 0; s < a; s++) {
             p = e[s];
-            if ((i = W.isString(p) ? Ze[p.toLowerCase()] : p)) {
+            if ((i = $.isString(p) ? Ze[p.toLowerCase()] : p)) {
               break;
             }
           }
@@ -11691,12 +11691,12 @@ module.exports = (function(e, a) {
               );
             }
             throw new Error(
-              W.hasOwnProp(Ze, p)
+              $.hasOwnProp(Ze, p)
                 ? `Adapter '${p}' is not available in the build`
                 : `Unknown adapter '${p}'`
             );
           }
-          if (!W.isFunction(i)) {
+          if (!$.isFunction(i)) {
             throw new TypeError("adapter is not a function");
           }
           return i;
@@ -11747,31 +11747,31 @@ module.exports = (function(e, a) {
         a = a || {};
         const p = {};
         function getMergedValue(e, a, p) {
-          if (W.isPlainObject(e) && W.isPlainObject(a)) {
-            return W.merge.call({ caseless: p }, e, a);
-          } else if (W.isPlainObject(a)) {
-            return W.merge({}, a);
-          } else if (W.isArray(a)) {
+          if ($.isPlainObject(e) && $.isPlainObject(a)) {
+            return $.merge.call({ caseless: p }, e, a);
+          } else if ($.isPlainObject(a)) {
+            return $.merge({}, a);
+          } else if ($.isArray(a)) {
             return a.slice();
           }
           return a;
         }
         function mergeDeepProperties(e, a, p) {
-          if (!W.isUndefined(a)) {
+          if (!$.isUndefined(a)) {
             return getMergedValue(e, a, p);
-          } else if (!W.isUndefined(e)) {
+          } else if (!$.isUndefined(e)) {
             return getMergedValue(undefined, e, p);
           }
         }
         function valueFromConfig2(e, a) {
-          if (!W.isUndefined(a)) {
+          if (!$.isUndefined(a)) {
             return getMergedValue(undefined, a);
           }
         }
         function defaultToConfig2(e, a) {
-          if (!W.isUndefined(a)) {
+          if (!$.isUndefined(a)) {
             return getMergedValue(undefined, a);
-          } else if (!W.isUndefined(e)) {
+          } else if (!$.isUndefined(e)) {
             return getMergedValue(undefined, e);
           }
         }
@@ -11812,12 +11812,12 @@ module.exports = (function(e, a) {
           validateStatus: mergeDirectKeys,
           headers: (e, a) => mergeDeepProperties(Xe(e), Xe(a), true)
         };
-        W.forEach(
+        $.forEach(
           Object.keys(e).concat(Object.keys(a)),
           function computeConfigValue(s) {
             const o = i[s] || mergeDeepProperties;
             const t = o(e[s], a[s], s);
-            (W.isUndefined(t) && o !== mergeDirectKeys) || (p[s] = t);
+            ($.isUndefined(t) && o !== mergeDirectKeys) || (p[s] = t);
           }
         );
         return p;
@@ -11925,9 +11925,9 @@ module.exports = (function(e, a) {
           }
           a.method = (a.method || this.defaults.method || "get").toLowerCase();
           let o;
-          o = s && W.merge(s.common, s[a.method]);
+          o = s && $.merge(s.common, s[a.method]);
           o &&
-            W.forEach(
+            $.forEach(
               ["delete", "get", "head", "post", "put", "patch", "common"],
               e => {
                 delete s[e];
@@ -11996,7 +11996,7 @@ module.exports = (function(e, a) {
           return buildURL(a, e.params, e.paramsSerializer);
         }
       }
-      W.forEach(
+      $.forEach(
         ["delete", "get", "head", "options"],
         function forEachMethodNoData(e) {
           Axios_Axios.prototype[e] = function(a, p) {
@@ -12006,7 +12006,7 @@ module.exports = (function(e, a) {
           };
         }
       );
-      W.forEach(["post", "put", "patch"], function forEachMethodWithData(e) {
+      $.forEach(["post", "put", "patch"], function forEachMethodWithData(e) {
         function generateHTTPMethod(a) {
           return function httpMethod(p, i, s) {
             return this.request(
@@ -12100,13 +12100,13 @@ module.exports = (function(e, a) {
         };
       }
       function isAxiosError(e) {
-        return W.isObject(e) && e.isAxiosError === true;
+        return $.isObject(e) && e.isAxiosError === true;
       }
       function createInstance(e) {
         const a = new sa(e);
         const p = bind(sa.prototype.request, a);
-        W.extend(p, sa.prototype, a, { allOwnKeys: true });
-        W.extend(p, a, null, { allOwnKeys: true });
+        $.extend(p, sa.prototype, a, { allOwnKeys: true });
+        $.extend(p, a, null, { allOwnKeys: true });
         p.create = function create(a) {
           return createInstance(mergeConfig(e, a));
         };
@@ -12128,7 +12128,7 @@ module.exports = (function(e, a) {
       ta.isAxiosError = isAxiosError;
       ta.mergeConfig = mergeConfig;
       ta.AxiosHeaders = ge;
-      ta.formToJSON = e => le(W.isHTMLForm(e) ? new FormData(e) : e);
+      ta.formToJSON = e => le($.isHTMLForm(e) ? new FormData(e) : e);
       ta.default = ta;
       var na = ta;
       p.d(a, "default", function() {

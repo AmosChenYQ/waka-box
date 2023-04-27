@@ -1,0 +1,32 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Update dist after push or pull request
+
+on:
+  push:
+    branches: ["master"]
+  pull_request:
+    branches: ["master"]
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: Setup Node version to 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: "npm"
+      - name: Generate dist/index.js
+        run: |
+          npm install
+          npm run build
+      - name: Push generated dist/index.js to Github
+        run: |
+          git config --global user.email "bot@github.com" && git config --global user.name "Github-Bot"
+          git add dist/index.js
+          git commit -m "Update generated dist/index.js"
+          git push
