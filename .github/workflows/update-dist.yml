@@ -22,7 +22,7 @@ jobs:
           cache: "npm"
       - name: Generate dist/index.js
         run: |
-          npm install
+          npm install --force
           npm run build
       - name: Push generated dist/index.js to Github
         run: |
