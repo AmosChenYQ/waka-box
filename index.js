@@ -18,9 +18,15 @@ const wakatime = new WakaTimeClient(wakatimeApiKey);
 
 const octokit = new Octokit({ auth: `token ${githubToken}` });
 
+// async function main() {
+//   const statusBar = await wakatime.getStatusBar();
+//   await updateGist(statusBar);
+// }
+
 async function main() {
-  const statusBar = await wakatime.getStatusBar();
-  await updateGist(statusBar);
+  const stats = await wakatime.getMyStats({ range: RANGE.LAST_7_DAYS });
+  console.log(stats.data.languages);
+  await updateGist(stats);
 }
 
 function trimRightStr(str, len) {
@@ -60,7 +66,7 @@ async function updateGist(stats) {
       gist_id: gistId,
       files: {
         [filename]: {
-          filename: `📊 Development breakdown of last day`,
+          filename: `📊 Development breakdown of last week`,
           content: lines.join("\n")
         }
       }
